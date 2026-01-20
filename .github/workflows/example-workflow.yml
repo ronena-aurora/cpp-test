@@ -11,7 +11,7 @@ jobs:
     environment: ${{ vars.ENVNAME || 'start' }}
     env:
       LOCI_BACKEND_URL: '${{ vars.PROJECTURL }}'
-      LOCI_API_KEY: '${{ secrets.SECRETKEY }}'
+      LOCI_API_KEY: '${{ secrets.SECRETKEYXX }}'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
