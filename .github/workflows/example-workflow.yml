@@ -5,11 +5,10 @@ on:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
-environment: ${{ vars.ENVNAME || 'start' }}
-
 jobs:
   loci:
     runs-on: ubuntu-latest
+    environment: ${{ vars.ENVNAME || 'start' }}
     steps:
       - name: Prepare environment
         run: |
