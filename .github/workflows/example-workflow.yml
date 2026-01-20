@@ -9,6 +9,9 @@ jobs:
   test:
     runs-on: ubuntu-22.04-arm
     environment: ${{ vars.ENVNAME || 'start' }}
+    env:
+      LOCI_BACKEND_URL: '${{ vars.PROJECTURL }}'
+      LOCI_API_KEY: '${{ secrets.SECRETKEY }}'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -23,9 +26,6 @@ jobs:
         shell: bash
       - name: LOCI Upload
         uses: auroralabs-loci/loci-action@v1
-        env:
-          LOCI_BACKEND_URL: '${{ vars.PROJECTURL }}'
-          LOCI_API_KEY: '${{ secrets.SECRETKEY }}'
         with:
           mode: upload
           binaries: ./
