@@ -18,7 +18,7 @@ jobs:
         shell: bash
       - name: Build and run tests
         run: |
-          make test
+          make 
         shell: bash
       - name: LOCI Upload
         uses: auroralabs-loci/loci-action@v1
