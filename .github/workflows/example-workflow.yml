@@ -5,6 +5,7 @@ on:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
+environment: ${{ vars.ENVNAME || 'start' }}
 
 jobs:
   loci:
@@ -28,10 +29,10 @@ jobs:
           echo "Successfully compiled openssl"
         shell: bash
       - name: LOCI Upload
-        uses: auroralabs-loci/loci-dev-action@main
+        uses: auroralabs-loci/loci-action@v1
         env:
-          LOCI_BACKEND_URL: '${{ vars.DEV_BE_URL }}'
-          LOCI_API_KEY: '${{ secrets.DEV_API_KEY }}'
+          LOCI_BACKEND_URL: '${{ vars.PROJECTURL }}'
+          LOCI_API_KEY: '${{ secrets.SECRETKEY }}'
         with:
           mode: upload
           binaries: |
@@ -40,4 +41,4 @@ jobs:
                 libcrypto.so.3
                 libssl.so
                 libssl.so.3
-          project: ${{ env.LOCI_PROJECT}}
+          project: 'cpp-test'
