@@ -1,4 +1,4 @@
-name: Example Workflow
+name: C++ Bubble Sort Tests
 on:
   push:
     branches:
@@ -6,26 +6,19 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  loci:
-    runs-on: ubuntu-latest
-    environment: ${{ vars.ENVNAME || 'start' }}
+  test:
+    runs-on: ubuntu-24.04-arm64
     steps:
-      - name: Prepare environment
-        run: |
-          sudo apt-get -y update
-          sudo apt-get -y install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu build-essential cmake git ninja-build python3-minimal
-          echo "Cross compiler installed"
-        shell: bash
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Build sample
+      - name: Install dependencies
         run: |
-          CC=gcc CXX=g++ ./Configure linux-aarch64 --cross-compile-prefix=aarch64-linux-gnu- -g -fno-stack-protector
-          make -j
-          mv apps/openssl openssl
-          echo "Successfully compiled openssl"
+          sudo apt-get -y update
+          sudo apt-get -y install build-essential
+        shell: bash
+      - name: Build and run tests
+        run: |
+          make test
         shell: bash
       - name: LOCI Upload
         uses: auroralabs-loci/loci-action@v1
@@ -34,10 +27,5 @@ jobs:
           LOCI_API_KEY: '${{ secrets.SECRETKEY }}'
         with:
           mode: upload
-          binaries: |
-                openssl
-                libcrypto.so
-                libcrypto.so.3
-                libssl.so
-                libssl.so.3
+          binaries: ./
           project: 'cpp-test'
