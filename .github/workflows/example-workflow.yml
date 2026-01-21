@@ -5,6 +5,7 @@ on:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_dispatch: {}
 jobs:
   test:
     runs-on: ubuntu-22.04-arm
